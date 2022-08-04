@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F404CDC1-5339-441B-9C82-6E83EF11B904}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19314609-9C64-4B35-9C52-8650986F60A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJB.AzureCosmos.BulkDelete", "src\MrJB.AzureCosmos.BulkDelete\MrJB.AzureCosmos.BulkDelete.csproj", "{65C130FF-67E8-4106-858F-519F130CA819}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrJB.AzureCosmos.App", "src\MrJB.AzureCosmos.App\MrJB.AzureCosmos.App.csproj", "{B4E2565C-4198-4E16-8480-55019F3300C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65C130FF-67E8-4106-858F-519F130CA819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C130FF-67E8-4106-858F-519F130CA819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C130FF-67E8-4106-858F-519F130CA819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C130FF-67E8-4106-858F-519F130CA819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E2565C-4198-4E16-8480-55019F3300C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E2565C-4198-4E16-8480-55019F3300C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E2565C-4198-4E16-8480-55019F3300C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E2565C-4198-4E16-8480-55019F3300C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65C130FF-67E8-4106-858F-519F130CA819} = {19314609-9C64-4B35-9C52-8650986F60A2}
+		{B4E2565C-4198-4E16-8480-55019F3300C1} = {19314609-9C64-4B35-9C52-8650986F60A2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE1828DD-C9E6-43BD-92C2-D30423C6A98F}
+	EndGlobalSection
+EndGlobal
