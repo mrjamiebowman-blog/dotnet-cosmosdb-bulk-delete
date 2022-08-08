@@ -1,7 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Net;
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json.Linq;
 
 Console.WriteLine("Azure Cosmos DB Bulk Delete by Query.");
 
@@ -51,7 +54,76 @@ async Task PopulateDatabaseAsync(Container container)
 
 async Task RemoveItemsByQueryAsync(Container container, string query)
 {
+    Console.WriteLine($"Starting data removal process.");
 
+    // count
+    int count = 1;
+
+    using FeedIterator<JObject> queryOfItems = container.GetItemQueryIterator<JObject>(
+        query,
+        requestOptions: new QueryRequestOptions()
+        {
+            MaxBufferedItemCount = 0,
+            MaxConcurrency = 1,
+            MaxItemCount = 100
+        }
+    );
+
+    Stopwatch sw = new Stopwatch();
+    sw.Start();
+
+    while (queryOfItems.HasMoreResults)
+    {
+        List<Task> tasks = new List<Task>();
+
+        FeedResponse<JObject> items = await queryOfItems.ReadNextAsync();
+
+        foreach (JObject item in items)
+        {
+            tasks.Add(RemoveItem(container, item, count));
+            count++;
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+    // stop 
+    sw.Stop();
+    Console.WriteLine($"Time: {sw.Elapsed.ToString("mm\\:ss\\.ff")}");
+    Console.WriteLine($"Items Removed: {count.ToString()}.");
+}
+
+async Task RemoveItem(Container container, JObject item, int count)
+{
+    ItemRequestOptions itemRequestOptions = new ItemRequestOptions() {
+        EnableContentResponseOnWrite = false
+    };
+
+    // loop
+    while (true)
+    {
+        string id = item["id"].Value<string>();
+
+        // partition key
+        string? pk = item["pk"] != null ? item["pk"].Value<string>() : null;
+
+        itemRequestOptions.IfMatchEtag = item["_etag"].Value<string>();
+
+        try
+        {
+            // remove
+            await container.DeleteItemAsync<JObject>(id, new PartitionKey(pk), itemRequestOptions);
+            return;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            Console.WriteLine($"Not Found (404) with id:{id}, pk:{pk}.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}.");
+        }
+    }
 }
 
 async Task<Container> InitializeAsync()
